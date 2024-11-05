@@ -1,7 +1,7 @@
 # Go GitLab Redundant Pipeline Cleaner 🚀
 
 <p align="center">
-  <img height="125" src="https://upload.wikimedia.org/wikipedia/commons/2/23/Go_Logo_Blue.svg" alt="Go Logo">
+  <img height="125" src="https://go.dev/blog/go-brand/Go-Logo/PNG/Go-Logo_LightBlue.png" alt="Go Logo">
 </p>
 
 🌟 A powerful and efficient Golang application designed to clean up redundant pipelines in GitLab repositories using webhooks. This tool is perfect for automating the cancellation of unnecessary CI/CD pipelines triggered by merge requests, optimizing your team's workflow and saving valuable resources.
