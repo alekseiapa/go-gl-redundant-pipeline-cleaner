@@ -86,6 +86,12 @@ GITLAB_PROJECT_NAME=your-gitlab-project
 
 ### Docker Setup
 
+Create a network:
+
+```bash
+docker network create traefik_net_webhook
+```
+
 Build and run the application using Docker:
 
 ```bash
@@ -126,7 +132,7 @@ func main() {
     }
     webhookHandler := handlers.NewWebhookHandler(cfg, gitlabClient, logger)
     authMiddleware := middleware.AuthMiddleware(cfg, logger)
-    http.Handle("/esp-idf-cancel-redundant-pipelines", authMiddleware(http.HandlerFunc(webhookHandler.HandleWebhook)))
+    http.Handle("/cancel-redundant-pipelines", authMiddleware(http.HandlerFunc(webhookHandler.HandleWebhook)))
 
     log.Println("Starting server on port 5001...")
     if err := http.ListenAndServe(":5001", nil); err != nil {
