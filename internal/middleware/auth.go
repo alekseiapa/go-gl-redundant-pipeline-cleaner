@@ -10,6 +10,13 @@ import (
 func AuthMiddleware(cfg *config.Config, logger *log.Logger) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// Restrict to POST requests only
+			if r.Method != http.MethodPost {
+				logger.Printf("Method not allowed: %s", r.Method)
+				http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+				return
+			}
+
 			token := strings.TrimSpace(r.Header.Get("X-Gitlab-Token"))
 			if token == "" {
 				logger.Println("Missing X-Gitlab-Token header in the request")
