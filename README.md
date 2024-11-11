@@ -240,18 +240,16 @@ Here are some common `Makefile` commands for development:
 
 - **make help**: Display available commands.
 - **make audit**: Conduct quality checks.
-- **make benchmark**: Benchmark code performance.
 - **make coverage**: Generate test coverage report.
 - **make format**: Automatically format code.
 - **make lint**: Run lint checks.
-- **make test**: Execute all tests.
 - **make tidy**: Tidy dependencies.
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. 
 
 ---
 
