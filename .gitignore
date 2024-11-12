@@ -45,3 +45,6 @@ Thumbs.db
 
 # Traefik dynamic config
 traefik-dynamic.yaml
+
+# Test Coverage reports
+coverage.*
