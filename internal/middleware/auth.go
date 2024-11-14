@@ -1,10 +1,11 @@
 package middleware
 
 import (
-	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/config"
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/config"
 )
 
 func AuthMiddleware(cfg *config.Config, logger *log.Logger) func(http.Handler) http.Handler {

@@ -2,12 +2,13 @@ package gitlab
 
 import (
 	"fmt"
-	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/config"
-	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/utils"
-	"github.com/xanzy/go-gitlab"
 	"log"
 	"sort"
 	"time"
+
+	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/config"
+	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/utils"
+	"github.com/xanzy/go-gitlab"
 )
 
 type GitlabClient struct {

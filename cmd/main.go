@@ -1,13 +1,14 @@
 package main
 
 import (
+	"log"
+	"net/http"
+	"os"
+
 	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/config"
 	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/gitlab"
 	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/handlers"
 	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/middleware"
-	"log"
-	"net/http"
-	"os"
 )
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 	}
 	gitlabClient, err := gitlab.NewGitlabClient(cfg, logger)
 	if err != nil {
-		logger.Fatal("failed to initialize gitlab client: %v", err)
+		logger.Fatalf("failed to initialize gitlab client: %v", err)
 	}
 	webhookHandler := handlers.NewWebhookHandler(cfg, gitlabClient, logger)
 	authMiddleware := middleware.AuthMiddleware(cfg, logger)

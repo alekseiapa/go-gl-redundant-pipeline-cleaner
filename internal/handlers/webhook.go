@@ -2,10 +2,11 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/config"
-	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/gitlab"
 	"log"
 	"net/http"
+
+	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/config"
+	"github.com/alekseiapa/go-gl-redundant-pipeline-cleaner/internal/gitlab"
 )
 
 type WebhookHandler struct {
@@ -44,7 +45,7 @@ func (h *WebhookHandler) HandleWebhook(w http.ResponseWriter, r *http.Request) {
 	go func() {
 		err := h.GitlabClient.CancelRedundantPipelinesByMR(mrID, action)
 		if err != nil {
-			h.Logger.Fatal("Failed to cancel redundant pipelines for MR ID %v: %v", mrID, err)
+			h.Logger.Fatalf("Failed to cancel redundant pipelines for MR ID %v: %v", mrID, err)
 		}
 	}()
 
