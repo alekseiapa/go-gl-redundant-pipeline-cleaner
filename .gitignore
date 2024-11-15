@@ -12,7 +12,6 @@
 
 # Go dependency files
 vendor/
-go.sum
 
 # Binaries
 /webhook-listener
