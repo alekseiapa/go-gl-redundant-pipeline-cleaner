@@ -11,7 +11,7 @@ type Config struct {
 	GitlabWebhookSecret string
 	GitlabAPIToken      string
 	GitlabURL           string
-	GitlabProjectName   string
+	GitlabProjectID     string
 }
 
 func LoadConfig() *Config {
@@ -23,7 +23,7 @@ func LoadConfig() *Config {
 		GitlabWebhookSecret: getEnv("GITLAB_WEBHOOK_SECRET", ""),
 		GitlabAPIToken:      getEnv("GITLAB_API_TOKEN", ""),
 		GitlabURL:           getEnv("GITLAB_URL", ""),
-		GitlabProjectName:   getEnv("GITLAB_PROJECT_NAME", ""),
+		GitlabProjectID:     getEnv("GITLAB_PROJECT_ID", ""),
 	}
 }
 

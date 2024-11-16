@@ -123,7 +123,7 @@ func main() {
     cfg := config.LoadConfig()
 
     logger := log.New(os.Stdout, "webhook-listener", log.LstdFlags|log.Lshortfile)
-    if cfg.GitlabAPIToken == "" || cfg.GitlabWebhookSecret == "" || cfg.GitlabProjectName == "" {
+    if cfg.GitlabAPIToken == "" || cfg.GitlabWebhookSecret == "" || cfg.GitlabProjectID == "" {
         logger.Fatal("Missing required environment variables.")
     }
     gitlabClient, err := gitlab.NewGitlabClient(cfg, logger)
