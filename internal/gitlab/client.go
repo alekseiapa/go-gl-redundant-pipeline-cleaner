@@ -23,7 +23,7 @@ func NewGitlabClient(cfg *config.Config, logger *log.Logger) (*GitlabClient, err
 	if err != nil {
 		return nil, err
 	}
-	project, _, err := glClient.Projects.GetProject(cfg.GitlabProjectName, nil)
+	project, _, err := glClient.Projects.GetProject(cfg.GitlabProjectID, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -37,22 +37,41 @@ func NewGitlabClient(cfg *config.Config, logger *log.Logger) (*GitlabClient, err
 }
 
 func (gc *GitlabClient) ListPipelinesByMR(mrId int) ([]*gitlab.PipelineInfo, error) {
-	pipelines, _, err := gc.client.MergeRequests.ListMergeRequestPipelines(gc.project.ID, mrId)
+	var allPipelines []*gitlab.PipelineInfo
+	page := 1
+	perPage := 100
+	for {
+		// Fetch a page of pipelines
+		pipelines, resp, err := gc.client.MergeRequests.ListMergeRequestPipelines(gc.project.ID, mrId,
+			WithListOptions(&gitlab.ListOptions{
+				Page:    page,
+				PerPage: perPage,
+			}),
+		)
+		if err != nil {
+			return nil, err
+		}
 
-	if err != nil {
-		return nil, err
+		allPipelines = append(allPipelines, pipelines...)
+
+		// Check if we have fetched all pages
+		if resp.NextPage == 0 {
+			break
+		}
+		page = resp.NextPage
 	}
-	gc.logger.Printf("Found %d pipelines for MR %d", len(pipelines), mrId)
-	return pipelines, nil
+	gc.logger.Printf("Found %d pipelines for MR %d", len(allPipelines), mrId)
+
+	return allPipelines, nil
 }
 
 func (gc *GitlabClient) CancelRedundantPipelinesByMR(mrId int, mrAction string) error {
 	// Allow the pipeline to be created
-	time.Sleep(80 * time.Second)
+	time.Sleep(20 * time.Second)
 
 	pipelines, err := gc.ListPipelinesByMR(mrId)
 	if err != nil {
-		return fmt.Errorf("failed to fetch the pipelines for MR %d: %v", mrId, err)
+		return fmt.Errorf("failed to fetch the pipelines for MR %d: %v\n", mrId, err)
 	}
 
 	excludedPipelineStatuses := map[string]bool{
@@ -91,14 +110,14 @@ func (gc *GitlabClient) CancelRedundantPipelinesByMR(mrId int, mrAction string) 
 			pipelineID := pipeline.ID
 			_, _, cancelErr := gc.client.Pipelines.CancelPipelineBuild(gc.project.ID, pipelineID)
 			if cancelErr != nil {
-				gc.logger.Printf("Error cancelling pipeline %d: %v", pipeline.ID, cancelErr)
+				gc.logger.Printf("Error cancelling pipeline %d: %v\n", pipeline.ID, cancelErr)
 			} else {
-				gc.logger.Printf("Successfully cancelled pipeline ID %d for the MR %d", pipeline.ID, mrId)
+				gc.logger.Printf("Successfully cancelled pipeline ID %d for the MR %d\n", pipeline.ID, mrId)
 			}
 			return cancelErr
 		})
 		if err != nil {
-			gc.logger.Printf("MR ID %d: Max retries reached for pipeline %d. Error: %v", mrId, pipeline.ID, err)
+			gc.logger.Printf("MR ID %d: Max retries reached for pipeline %d. Error: %v\n", mrId, pipeline.ID, err)
 		}
 	}
 	return nil

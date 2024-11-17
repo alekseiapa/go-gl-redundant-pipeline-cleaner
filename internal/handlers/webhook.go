@@ -40,12 +40,12 @@ func (h *WebhookHandler) HandleWebhook(w http.ResponseWriter, r *http.Request) {
 	mrID := int(mrDetails["iid"].(float64))
 	action := mrDetails["action"].(string)
 
-	log.Printf("Received webhook for MR ID %v with action %v", mrID, action)
+	log.Printf("Received webhook for MR ID %v with action %v\n", mrID, action)
 
 	go func() {
 		err := h.GitlabClient.CancelRedundantPipelinesByMR(mrID, action)
 		if err != nil {
-			h.Logger.Fatalf("Failed to cancel redundant pipelines for MR ID %v: %v", mrID, err)
+			h.Logger.Printf("Failed to cancel redundant pipelines for MR ID %d: %v\n", mrID, err)
 		}
 	}()
 
