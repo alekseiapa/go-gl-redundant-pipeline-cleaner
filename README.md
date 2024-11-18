@@ -8,6 +8,27 @@
 
 ---
 
+## How It Works
+When a new merge request (MR) is updated, the tool scans for active pipelines associated with the MR. If multiple pipelines are found, the tool cancels all but the most recent pipeline, ensuring that only the latest pipeline continues running.
+
+## Before and After Example
+
+### Identifying Redundant Pipelines
+The tool identifies multiple active pipelines that are running for the same merge request. Below is an example screenshot showing **redundant pipelines** triggered by multiple updates to the same MR:
+
+![Redundant Pipelines](assets/images/redundant-pipelines.png)
+
+In this screenshot, you can see that several pipelines were triggered by different updates. However, only the most recent pipeline is necessary, as previous ones are now outdated.
+
+### Canceling Redundant Pipelines
+After running the tool, redundant pipelines are automatically canceled, leaving only the most recent pipeline active. This helps to free up resources and reduce clutter in the CI/CD pipeline list.
+
+Here’s a screenshot showing the **result after running the tool**:
+
+![Canceled Pipelines](assets/images/canceled-pipelines.png)
+
+As you can see, the tool successfully canceled the redundant pipelines, leaving only the latest one running.
+
 ## 📚 Introduction
 
 With the continuous integration and deployment practices, it's common to have multiple pipelines triggered for various merge request actions. This application leverages GitLab webhooks to cancel redundant pipelines, especially useful for preventing unnecessary tasks on merge request updates.
