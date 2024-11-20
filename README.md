@@ -102,7 +102,7 @@ Create a `.env` file in the project root directory with the following variables:
 GITLAB_WEBHOOK_SECRET=your-webhook-secret
 GITLAB_API_TOKEN=your-gitlab-api-token
 GITLAB_URL=https://gitlab.com
-GITLAB_PROJECT_NAME=your-gitlab-project
+GITLAB_PROJECT_ID=your-gitlab-project-id
 ```
 
 ### Docker Setup
